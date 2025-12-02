@@ -154,7 +154,6 @@ public class Main {
         }
     }
 }
-
 // ---------------- OPRET MEDLEM ----------------
 public static Medlem opretMedlem() {
     Scanner sc = new Scanner(System.in);
