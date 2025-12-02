@@ -1,2 +1,148 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+        ArrayList<Medlem> medlemmer = new ArrayList<>();
+        Kasser kasser = new Kasser(); // Kasser-objekt
+        boolean running = true;
+
+        while (running) {
+
+            System.out.println("=== HOVEDMENU ===");
+            System.out.println("1. Formand");
+            System.out.println("2. Coach");
+            System.out.println("3. Kasser");
+            System.out.println("4. Afslut");
+
+            int choice = input.nextInt();
+            input.nextLine(); // fjern newline
+
+            switch (choice) {
+
+                case 1 -> { // Formand
+                    System.out.println("-- Hej hr.formand --");
+                    System.out.println("1. Opret medlem");
+                    System.out.println("2. Fjern medlem");
+
+                    int fValg = input.nextInt();
+                    input.nextLine();
+
+                    switch (fValg) {
+                        case 1 -> {
+                            Medlem m = opretMedlem();
+                            medlemmer.add(m);
+
+                            // Opret kontingent automatisk
+                            Kontigent k = new Kontigent(2025, m, Kontigent.Status.IKKEBETALT);
+                            kasser.addKontigenter(k);
+
+                            System.out.println("Medlem oprettet:");
+                            System.out.println(m);
+                        }
+                        case 2 -> {
+                            System.out.println("Medlemsliste:");
+                            for (Medlem m : medlemmer) {
+                                System.out.println(m);
+                            }
+
+                            System.out.print("Indtast ID på medlem der skal fjernes: ");
+                            int id = input.nextInt();
+                            input.nextLine();
+
+                            Medlem toRemove = null;
+                            for (Medlem m : medlemmer) {
+                                if (m.getId() == id) {
+                                    toRemove = m;
+                                    break;
+                                }
+                            }
+
+                            if (toRemove != null) {
+                                medlemmer.remove(toRemove);
+                                System.out.println("Medlem fjernet: " + toRemove.getNavn());
+                            } else {
+                                System.out.println("Medlem ikke fundet.");
+                            }
+                        }
+                        default -> System.out.println("Ugyldigt valg!");
+                    }
+                }
+
+                case 2 -> { // Coach
+                    System.out.println("-- Hej Coach --");
+                    // Her kan du tilføje coach-funktioner senere
+                }
+
+                case 3 -> { // Kasser
+                    System.out.println("=== Kontingenter ===");
+
+                    // Vis alle kontingenter med pris, type og status
+                    for (Kontigent k : kasser.getKontigenter()) {
+                        System.out.println(
+                                k.getMedlem().getNavn() + " | " +
+                                        k.getMedlem().getSpillerType() + " | " +
+                                        k.getStatus() + " | " +
+                                        k.getPris() + " kr"
+                        );
+                    }
+
+                    // Vis samlet pris
+                    double sum = Kontigent.beregnSum(kasser.getKontigenter());
+                    System.out.println("-------------------");
+                    System.out.println("Samlet pris: " + sum + " kr");
+                }
+
+                case 4 -> {
+                    System.out.println("Program afsluttes.");
+                    running = false;
+                }
+
+                default -> System.out.println("Ugyldigt valg!");
+            }
+        }
+    }
+
+    // ---------------- OPRET MEDLEM ----------------
+    public static Medlem opretMedlem() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Navn: ");
+        String navn = sc.nextLine();
+
+        System.out.print("Adresse: ");
+        String adresse = sc.nextLine();
+
+        System.out.print("Alder: ");
+        int alder = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Telefon: ");
+        String tlf = sc.nextLine();
+
+        System.out.print("ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Medlemstype (AKTIV/PASSIV): ");
+        Medlem.medlemsType mType =
+                Medlem.medlemsType.valueOf(sc.nextLine().toUpperCase());
+
+        System.out.println("Rolletype (MOTIONIST/KONKURRENCE): ");
+        Medlem.rolleType rType =
+                Medlem.rolleType.valueOf(sc.nextLine().toUpperCase());
+
+        // Automatisk spillerType baseret på alder
+        Medlem.spillerType sType = (alder < 18) ? Medlem.spillerType.JUNIOR : Medlem.spillerType.SENIOR;
+
+        return new Medlem(navn, adresse, alder, email, tlf, id,
+                "Medlem", mType, sType, rType);
+    }
 }
+
