@@ -8,8 +8,8 @@ public class Medlem extends Person{
     private spillerType spillerType;
     private rolleType rolleType;
 
-    public Medlem(String navn, String adresse, int alder, String email, String tlf, int id, String beskaeftigelse, medlemsType medlemsType, spillerType spillerType, rolleType rolleType){
-        super(navn, adresse, alder, email, tlf, id, beskaeftigelse);
+    public Medlem(String navn, String efternavn, String adresse, int alder, String email, String tlf, int id, String beskaeftigelse, medlemsType medlemsType, spillerType spillerType, rolleType rolleType){
+        super(navn, efternavn, adresse, alder, email, tlf, id, beskaeftigelse);
         this.medlemsType = medlemsType;
         this.spillerType = spillerType;
         this.rolleType = rolleType;
@@ -42,10 +42,12 @@ public class Medlem extends Person{
 
     @Override
     public String toString() {
-        return "Medlem{" +
-                "medlemsType=" + medlemsType +
-                ", spillerType=" + spillerType +
-                ", rolleType=" + rolleType +
-                '}';
+        return "Medlem: " +
+                ", medlemsType = " + medlemsType +
+                ", spillerType = " + spillerType +
+                ", rolleType = " + rolleType;
     }
 }
+
+
+

@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -7,22 +6,18 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        ArrayList<Medlem> medlemmer = new ArrayList<>();
         Kasser kasser = new Kasser(); // Kasser-objekt
-
-        Coach coach = new Coach("Coach Carter");
-        List<KonkurrenceSpiller> alleSpillere = new ArrayList<>();
-
-
+        Formand formand = new Formand(); // Formand-objekt
         boolean running = true;
 
         while (running) {
 
-            System.out.println("=== HOVEDMENU ===");
+            System.out.println("\n=== HOVEDMENU ===");
             System.out.println("1. Formand");
             System.out.println("2. Coach");
             System.out.println("3. Kasser");
             System.out.println("4. Afslut");
+            System.out.print("Vælg: ");
 
             int choice = input.nextInt();
             input.nextLine(); // fjern newline
@@ -30,167 +25,136 @@ public class Main {
             switch (choice) {
 
                 case 1 -> { // Formand
-                    System.out.println("-- Hej hr.formand --");
-                    System.out.println("1. Opret medlem");
-                    System.out.println("2. Fjern medlem");
+                    boolean kørFormand = true;
 
-                    int fValg = input.nextInt();
-                    input.nextLine();
+                    while (kørFormand) {
+                        System.out.println("\n=== FORMAND MENU ===");
+                        System.out.println("1. Opret medlem");
+                        System.out.println("2. Fjern medlem");
+                        System.out.println("3. Vis alle medlemmer");
+                        System.out.println("9. Tilbage til hovedmenu");
+                        System.out.print("Vælg: ");
 
-                    switch (fValg) {
-                        case 1 -> {
-                            Medlem m = opretMedlem();
-                            medlemmer.add(m);
+                        int fValg = input.nextInt();
+                        input.nextLine(); // fjern newline
 
-                            // Opret kontingent automatisk
-                            Kontigent k = new Kontigent(2025, m, Kontigent.Status.IKKEBETALT);
-                            kasser.addKontigenter(k);
+                        switch (fValg) {
 
-                            System.out.println("Medlem oprettet:");
-                            System.out.println(m);
-                        }
-                        case 2 -> {
-                            System.out.println("Medlemsliste:");
-                            for (Medlem m : medlemmer) {
-                                System.out.println(m);
-                            }
+                            case 1 -> { // Opret medlem
+                                System.out.println("\n--- Opret Medlem ---");
+                                try {
+                                    Medlem nyt = Formand.opretMedlemViaBrugerInput(formand.medlemsListe);
+                                    formand.medlemsListe.add(nyt);
 
-                            System.out.print("Indtast ID på medlem der skal fjernes: ");
-                            int id = input.nextInt();
-                            input.nextLine();
+                                    // Automatisk kontingent oprettelse
+                                    int juniorPris = 800;
+                                    int seniorPris = 1500;
+                                    int aeldreRabat = 1125;
+                                    int passivPris = 250;
+                                    int aar = 2025;
+                                    Kontigent k = new Kontigent(juniorPris, seniorPris, aeldreRabat, passivPris, aar, nyt, Kontigent.Status.IKKEBETALT);
+                                    kasser.addKontigenter(k);
 
-                            Medlem toRemove = null;
-                            for (Medlem m : medlemmer) {
-                                if (m.getId() == id) {
-                                    toRemove = m;
-                                    break;
+                                    System.out.println("Medlem oprettet!");
+                                } catch (Exception e) {
+                                    System.out.println("Uventet fejl: " + e.getMessage());
                                 }
                             }
 
-                            if (toRemove != null) {
-                                medlemmer.remove(toRemove);
-                                System.out.println("Medlem fjernet: " + toRemove.getNavn());
-                            } else {
-                                System.out.println("Medlem ikke fundet.");
+                            case 2 -> { // Fjern medlem
+                                System.out.println("\n--- Fjern Medlem ---");
+                                System.out.print("Indtast ID på medlem der skal fjernes: ");
+                                int id;
+                                try {
+                                    id = Integer.parseInt(input.nextLine().trim());
+                                    formand.fjernMedlem(id);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Ugyldigt tal.");
+                                }
                             }
+
+                            case 3 -> { // Vis medlemmer
+                                System.out.println("\n--- Medlemsliste ---");
+                                if (formand.medlemsListe.isEmpty()) {
+                                    System.out.println("Ingen medlemmer registreret.");
+                                } else {
+                                    for (Medlem m : formand.medlemsListe) {
+                                        System.out.println(m.getId() + " - " + m.getNavn());
+                                    }
+                                }
+                            }
+
+                            case 9 -> { // Tilbage til hovedmenu
+                                kørFormand = false;
+                            }
+
+                            default -> System.out.println("Ugyldigt valg. Prøv igen.");
                         }
-                        default -> System.out.println("Ugyldigt valg!");
                     }
                 }
 
-                case 2 -> {
+                case 2 -> { // Coach
+                    System.out.println("Salam Coach Carter - Menu (under udvikling)");
+                    // Her kan du senere tilføje ranglister og kampregistrering
+                }
 
-                    System.out.println("Salam Coach Carter - Menu");
-                    System.out.println("1. Vis ranglister");
-                    System.out.println("2. Registrer kamp");
-                    System.out.println("3. Tilbage til Smash hovedmenu");
-                    System.out.println("Vælg input: ");
+                case 3 -> { // Kasser
+                    boolean kørKasser = true;
 
-                    int coachValg = input.nextInt();
-                    input.nextLine();
+                    while (kørKasser) {
+                        System.out.println("\n=== KASSER MENU ===");
+                        System.out.println("1. Vis alle kontingenter");
+                        System.out.println("2. Registrer betaling");
+                        System.out.println("3. Se samlet sum");
+                        System.out.println("4. Tilbage til hovedmenu");
+                        System.out.print("Vælg: ");
 
-                    if (coachValg == 1) {
-                        System.out.println("\n Salaam Coach, Vælg disciplin:");
-                        System.out.println("1. Junior Single");
-                        System.out.println("2. Junior Double");
-                        System.out.println("3. Junior Mixed");
-                        System.out.println("4. Senior Single");
-                        System.out.println("5. Senior Double");
-                        System.out.println("6. Senior Mixed");
-
-                        int disciplinValg = input.nextInt();
+                        int kValg = input.nextInt();
                         input.nextLine();
 
-                        if (disciplinValg == 1) {
-                            coach.printListe(coach.udtagJuniorSingle(alleSpillere));
-                        } else if (disciplinValg == 2) {
-                            coach.printListe(coach.udtagJuniorDouble(alleSpillere));
-                        } else if (disciplinValg == 3) {
-                            coach.printListe(coach.udtagJuniorMixed(alleSpillere));
-                        } else if (disciplinValg == 4) {
-                            coach.printListe(coach.udtagSeniorSingle(alleSpillere));
-                        } else if (disciplinValg == 5) {
-                            coach.printListe(coach.udtagSeniorDouble(alleSpillere));
-                        } else if (disciplinValg == 6) {
-                            coach.printListe(coach.udtagSeniorMixed(alleSpillere));
-                        } else System.out.println("Ugyldigt valg, prøv igen");
+                        switch (kValg) {
 
+                            case 1 -> { // Vis kontingenter
+                                for (Kontigent k : kasser.getKontigenter()) {
+                                    int dageTilbage = k.dageTilbage();
+                                    System.out.println(
+                                            k.getMedlem().getNavn() + " | " +
+                                                    k.getMedlem().getSpillerType() + " | " +
+                                                    k.getMedlem().getMedlemsType() + " | " +
+                                                    k.getStatus() + " | " +
+                                                    k.getPris() + " kr | " +
+                                                    "Dage tilbage: " + dageTilbage
+                                    );
+                                }
+                            }
 
-                    } else if (coachValg == 2) {
+                            case 2 -> { // Registrer betaling
+                                System.out.print("Indtast navn på medlem der har betalt: ");
+                                String navn = input.nextLine();
+                                kasser.registrerBetaling(navn);
+                            }
 
-                    } else {
-                        System.out.println("Tilbage til Smash hovedmenu. ");
+                            case 3 -> { // Se samlet sum
+                                double sumBetalt = kasser.sumBetalt();
+                                double sumIkkeBetalt = kasser.sumIkkeBetalt();
+                                System.out.println("Samlet betalt: " + sumBetalt + " kr");
+                                System.out.println("Samlet ikke betalt: " + sumIkkeBetalt + " kr");
+                            }
+
+                            case 4 -> kørKasser = false; // Tilbage til hovedmenu
+
+                            default -> System.out.println("Ugyldigt valg!");
+                        }
                     }
-
-
-                }
-            }
-
-            case 3 -> { // Kasser
-                System.out.println("=== Kontingenter ===");
-
-                // Vis alle kontingenter med pris, type og status
-                for (Kontigent k : kasser.getKontigenter()) {
-                    System.out.println(
-                            k.getMedlem().getNavn() + " | " +
-                                    k.getMedlem().getSpillerType() + " | " +
-                                    k.getStatus() + " | " +
-                                    k.getPris() + " kr"
-                    );
                 }
 
-                // Vis samlet pris
-                double sum = Kontigent.beregnSum(kasser.getKontigenter());
-                System.out.println("-------------------");
-                System.out.println("Samlet pris: " + sum + " kr");
-            }
+                case 4 -> { // Afslut
+                    System.out.println("Program afsluttes.");
+                    running = false;
+                }
 
-            case 4 -> {
-                System.out.println("Program afsluttes.");
-                running = false;
+                default -> System.out.println("Ugyldigt valg!");
             }
-
-            default -> System.out.println("Ugyldigt valg!");
         }
     }
 }
-// ---------------- OPRET MEDLEM ----------------
-public static Medlem opretMedlem() {
-    Scanner sc = new Scanner(System.in);
-
-    System.out.print("Navn: ");
-    String navn = sc.nextLine();
-
-    System.out.print("Adresse: ");
-    String adresse = sc.nextLine();
-
-    System.out.print("Alder: ");
-    int alder = sc.nextInt();
-    sc.nextLine();
-
-    System.out.print("Email: ");
-    String email = sc.nextLine();
-
-    System.out.print("Telefon: ");
-    String tlf = sc.nextLine();
-
-    System.out.print("ID: ");
-    int id = sc.nextInt();
-    sc.nextLine();
-
-    System.out.println("Medlemstype (AKTIV/PASSIV): ");
-    Medlem.medlemsType mType =
-            Medlem.medlemsType.valueOf(sc.nextLine().toUpperCase());
-
-    System.out.println("Rolletype (MOTIONIST/KONKURRENCE): ");
-    Medlem.rolleType rType =
-            Medlem.rolleType.valueOf(sc.nextLine().toUpperCase());
-
-    // Automatisk spillerType baseret på alder
-    Medlem.spillerType sType = (alder < 18) ? Medlem.spillerType.JUNIOR : Medlem.spillerType.SENIOR;
-
-    return new Medlem(navn, adresse, alder, email, tlf, id,
-            "Medlem", mType, sType, rType);
-}
-}
-

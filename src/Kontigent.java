@@ -7,9 +7,9 @@ public class Kontigent {
 
     private int juniorPris = 800;
     private int seniorPris = 1500;
-    private int aeldreRabat = 1225;
+    private int aeldreRabat = 1125;
     private int passiv = 250;
-    private int pris;       // Den endelige beregnede pris
+    private int pris; // Den endelige beregnede pris
     private int aar;
     private Medlem medlem;
     private LocalDate betalingsDato;
@@ -17,39 +17,61 @@ public class Kontigent {
 
     public Kontigent(int juniorPris, int seniorPris, int aeldreRabat, int passiv, int aar, Medlem medlem, Status status) {
         this.juniorPris = juniorPris;
-        this.seniorPris =
-                this.aar = aar;
+        this.seniorPris = seniorPris;
+        this.aeldreRabat = aeldreRabat;
+        this.passiv = passiv;
+        this.aar = aar;
         this.medlem = medlem;
         this.status = status;
         this.betalingsDato = null;
-        this.pris = beregnPris();
+        this.pris = (int) beregnPris();
     }
-    public
+
+    public int getJuniorPris() {
+        return juniorPris;
+    }
+
+    public int getSeniorPris() {
+        return seniorPris;
+    }
+
+    public int getAeldreRabat() {
+        return aeldreRabat;
+    }
+
+    public int getPassiv() {
+        return passiv;
+    }
+
+    public LocalDate getBetalingsDato() {
+        return betalingsDato;
+    }
+
     public int getPris() { return pris; }
+
     public int getAar() { return aar; }
+
     public Medlem getMedlem() { return medlem; }
+
     public Status getStatus() { return status; }
 
     private double beregnPris() {
-
+        if (medlem.getMedlemsType() == Medlem.medlemsType.PASSIV){
+            return passiv;
+        }
         int alder = medlem.getAlder();
-
-        double beregnetPris;
-
         // Juniorpris (Under 18)
         if (alder < 18) {
-            beregnetPris = juniorPris;
+            return juniorPris;
         }
         // Seniorpris (18–60)
         else if (alder <= 18) {
-            beregnetPris = seniorPris;
+            return seniorPris;
         }
         // Ældrepris (over 60)
         else {
-            beregnetPris = aeldreRabat;
+            return aeldreRabat;
         }
-
-        return beregnetPris;
     }
 
     public void registrerBetaling() {
@@ -68,6 +90,15 @@ public class Kontigent {
             sum += k.getPris();
         }
         return sum;
+    }
+
+    public int dageTilbage(){
+        if (betalingsDato == null) return 365;
+
+        int dageGaet = LocalDate.now().getDayOfYear() - betalingsDato.getDayOfYear();
+        if (dageGaet < 0) dageGaet += 365;
+
+        return Math.max(365 - dageGaet, 0);
     }
 
     @Override
