@@ -1,9 +1,9 @@
 /* Den her klasse skal kunne
-Gemme din spiller
-Gemme modstanderen
+Indtast vores spiller
+Indtast vores modstanderen
 Gemme score for begge
 Vide om kampen er afsluttet
-Kunne gemme resultat
+Efter gemme resultat
 Kunne printe kampen
 */
 

@@ -164,4 +164,12 @@ Til sidst: returnér listen med kun junior-single spillere
 
         kamp.printKamp();
     }
+
+    public void printListe(List<KonkurrenceSpiller> spillerList) {
+        for (KonkurrenceSpiller k : spillerList){
+            System.out.println(
+                    k.getMedlem().getNavn() + "Rank: " + k.getRank() + "Disciplin: " + k.getDiscipliner()
+            );
+        }
+    }
 }

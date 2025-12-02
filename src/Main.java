@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -8,6 +9,11 @@ public class Main {
         Scanner input = new Scanner(System.in);
         ArrayList<Medlem> medlemmer = new ArrayList<>();
         Kasser kasser = new Kasser(); // Kasser-objekt
+
+        Coach coach = new Coach("Coach Carter");
+        List<KonkurrenceSpiller> alleSpillere = new ArrayList<>();
+
+
         boolean running = true;
 
         while (running) {
@@ -73,6 +79,7 @@ public class Main {
                 }
 
                 case 2 -> {
+
                     System.out.println("Salam Coach Carter - Menu");
                     System.out.println("1. Vis ranglister");
                     System.out.println("2. Registrer kamp");
@@ -94,6 +101,19 @@ public class Main {
                         int disciplinValg = input.nextInt();
                         input.nextLine();
 
+                        if (disciplinValg == 1) {
+                            coach.printListe(coach.udtagJuniorSingle(alleSpillere));
+                        } else if (disciplinValg == 2) {
+                            coach.printListe(coach.udtagJuniorDouble(alleSpillere));
+                        } else if (disciplinValg == 3) {
+                            coach.printListe(coach.udtagJuniorMixed(alleSpillere));
+                        } else if (disciplinValg == 4) {
+                            coach.printListe(coach.udtagSeniorSingle(alleSpillere));
+                        } else if (disciplinValg == 5) {
+                            coach.printListe(coach.udtagSeniorDouble(alleSpillere));
+                        } else if (disciplinValg == 6) {
+                            coach.printListe(coach.udtagSeniorMixed(alleSpillere));
+                        } else System.out.println("Ugyldigt valg, prøv igen");
 
 
                     } else if (coachValg == 2) {
@@ -106,72 +126,72 @@ public class Main {
                 }
             }
 
-                case 3 -> { // Kasser
-                    System.out.println("=== Kontingenter ===");
+            case 3 -> { // Kasser
+                System.out.println("=== Kontingenter ===");
 
-                    // Vis alle kontingenter med pris, type og status
-                    for (Kontigent k : kasser.getKontigenter()) {
-                        System.out.println(
-                                k.getMedlem().getNavn() + " | " +
-                                        k.getMedlem().getSpillerType() + " | " +
-                                        k.getStatus() + " | " +
-                                        k.getPris() + " kr"
-                        );
-                    }
-
-                    // Vis samlet pris
-                    double sum = Kontigent.beregnSum(kasser.getKontigenter());
-                    System.out.println("-------------------");
-                    System.out.println("Samlet pris: " + sum + " kr");
+                // Vis alle kontingenter med pris, type og status
+                for (Kontigent k : kasser.getKontigenter()) {
+                    System.out.println(
+                            k.getMedlem().getNavn() + " | " +
+                                    k.getMedlem().getSpillerType() + " | " +
+                                    k.getStatus() + " | " +
+                                    k.getPris() + " kr"
+                    );
                 }
 
-                case 4 -> {
-                    System.out.println("Program afsluttes.");
-                    running = false;
-                }
-
-                default -> System.out.println("Ugyldigt valg!");
+                // Vis samlet pris
+                double sum = Kontigent.beregnSum(kasser.getKontigenter());
+                System.out.println("-------------------");
+                System.out.println("Samlet pris: " + sum + " kr");
             }
+
+            case 4 -> {
+                System.out.println("Program afsluttes.");
+                running = false;
+            }
+
+            default -> System.out.println("Ugyldigt valg!");
         }
     }
+}
 
-    // ---------------- OPRET MEDLEM ----------------
-    public static Medlem opretMedlem() {
-        Scanner sc = new Scanner(System.in);
+// ---------------- OPRET MEDLEM ----------------
+public static Medlem opretMedlem() {
+    Scanner sc = new Scanner(System.in);
 
-        System.out.print("Navn: ");
-        String navn = sc.nextLine();
+    System.out.print("Navn: ");
+    String navn = sc.nextLine();
 
-        System.out.print("Adresse: ");
-        String adresse = sc.nextLine();
+    System.out.print("Adresse: ");
+    String adresse = sc.nextLine();
 
-        System.out.print("Alder: ");
-        int alder = sc.nextInt();
-        sc.nextLine();
+    System.out.print("Alder: ");
+    int alder = sc.nextInt();
+    sc.nextLine();
 
-        System.out.print("Email: ");
-        String email = sc.nextLine();
+    System.out.print("Email: ");
+    String email = sc.nextLine();
 
-        System.out.print("Telefon: ");
-        String tlf = sc.nextLine();
+    System.out.print("Telefon: ");
+    String tlf = sc.nextLine();
 
-        System.out.print("ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+    System.out.print("ID: ");
+    int id = sc.nextInt();
+    sc.nextLine();
 
-        System.out.println("Medlemstype (AKTIV/PASSIV): ");
-        Medlem.medlemsType mType =
-                Medlem.medlemsType.valueOf(sc.nextLine().toUpperCase());
+    System.out.println("Medlemstype (AKTIV/PASSIV): ");
+    Medlem.medlemsType mType =
+            Medlem.medlemsType.valueOf(sc.nextLine().toUpperCase());
 
-        System.out.println("Rolletype (MOTIONIST/KONKURRENCE): ");
-        Medlem.rolleType rType =
-                Medlem.rolleType.valueOf(sc.nextLine().toUpperCase());
+    System.out.println("Rolletype (MOTIONIST/KONKURRENCE): ");
+    Medlem.rolleType rType =
+            Medlem.rolleType.valueOf(sc.nextLine().toUpperCase());
 
-        // Automatisk spillerType baseret på alder
-        Medlem.spillerType sType = (alder < 18) ? Medlem.spillerType.JUNIOR : Medlem.spillerType.SENIOR;
+    // Automatisk spillerType baseret på alder
+    Medlem.spillerType sType = (alder < 18) ? Medlem.spillerType.JUNIOR : Medlem.spillerType.SENIOR;
 
-        return new Medlem(navn, adresse, alder, email, tlf, id,
-                "Medlem", mType, sType, rType);
-    }
+    return new Medlem(navn, adresse, alder, email, tlf, id,
+            "Medlem", mType, sType, rType);
+}
 }
 
