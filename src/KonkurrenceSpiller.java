@@ -2,7 +2,7 @@ import java.util.List;
 
 public class KonkurrenceSpiller {
 
-    private Medlem m;
+    private Medlem medlem;
     private int rank;
 
     public enum Disciplin {
@@ -12,14 +12,14 @@ public class KonkurrenceSpiller {
     private List<Disciplin> discipliner;
 
 
-    public KonkurrenceSpiller(Medlem m, int rank, List<Disciplin> discipliner) {
-        this.m = m;
+    public KonkurrenceSpiller(Medlem medlem, int rank, List<Disciplin> discipliner) {
+        this.medlem = medlem;
         this.rank = rank;
         this.discipliner = discipliner;
     }
 
     public Medlem getMedlem() {
-        return m;
+        return medlem;
     }
 
     public int getRank() {
@@ -40,6 +40,11 @@ public class KonkurrenceSpiller {
 
     public void tabtKamp(){
         rank -=5;
+    }
+
+    @Override
+    public String toString (){
+        return medlem.getNavn() + " Rank: " + rank + discipliner;
     }
 }
 

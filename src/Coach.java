@@ -10,38 +10,39 @@ public class Coach {
         this.navn = navn;
     }
 
-    public List<KonkurrenceSpiller> udtagJunior(List<KonkurrenceSpiller> spillerListe) {
+    /*
+     Fælles metoder:
+     Filtrer spillere på alder (Junior/Senior)
+     Filtrer på disciplin (Single/Double/Mixed)
+     Sorterer efter rank
+     Begræns til top 5
+     */
 
-        List<KonkurrenceSpiller> juniorSpiller = new ArrayList<>();
 
-        for (KonkurrenceSpiller spiller : spillerListe) {
-            if (spiller.getMedlem().getSpillerType() == Medlem.spillerType.JUNIOR) {
-                juniorSpiller.add(spiller);
+
+    public List<KonkurrenceSpiller> udtagSpillere(List<KonkurrenceSpiller> spillere,
+        Medlem.spillerType alder, KonkurrenceSpiller.Disciplin disciplin) {
+
+        List<KonkurrenceSpiller> filtrer = new ArrayList<>();
+
+        for (KonkurrenceSpiller ksSpiller : spillere) {
+            boolean sammeAlder = ksSpiller.getMedlem().getSpillerType() == alder;
+            boolean spillerDisciplin = ksSpiller.getDiscipliner().contains(disciplin);
+
+            if (sammeAlder && spillerDisciplin) {
+                filtrer.add(ksSpiller);
             }
         }
-        Collections.sort(juniorSpiller, (a, b) -> Integer.compare(a.getRank(), b.getRank()));
-        if (juniorSpiller.size() > 5) {
-            juniorSpiller = juniorSpiller.subList(0, 5);
 
+        // Sortér efter rank
+        filtrer.sort((a, b) -> Integer.compare(a.getRank(), b.getRank()));
+
+        // Tag top 5 hvis der er flere
+        if (filtrer.size() > 5) {
+            return filtrer.subList(0, 5);
         }
-        return juniorSpiller;
-    }
 
-
-    public List<KonkurrenceSpiller> udtagSenior(List<KonkurrenceSpiller> spillerListe) {
-
-        List<KonkurrenceSpiller> seniorSpiller = new ArrayList<>();
-
-        for (KonkurrenceSpiller spiller : spillerListe) {
-            if (spiller.getMedlem().getSpillerType() == Medlem.spillerType.SENIOR) {
-                seniorSpiller.add(spiller);
-            }
-        }
-        Collections.sort(seniorSpiller, (a, b) -> Integer.compare(a.getRank(), b.getRank()));
-        if (seniorSpiller.size() > 5) {
-            seniorSpiller = seniorSpiller.subList(0, 5);
-        }
-        return seniorSpiller;
+        return filtrer;
     }
 
     /* HVAD SKER DER I NEDENSTÅENDE LOOP?
@@ -153,13 +154,13 @@ Til sidst: returnér listen med kun junior-single spillere
 
     public void registrerKamp(KonkurrenceSpiller spiller, Modstander modstander, int mig, int mod) {
 
-        RegistrerKamp kamp = new RegistrerKamp(spiller, modstander);    // Lav en kamp
+        RegistrerKamp kamp = new RegistrerKamp(spiller, modstander);          // Lav en kamp
 
-        kamp.registrerResultat(mig, mod);                             // Registrer resultat
+        kamp.registrerResultat(mig, mod);                                    // Registrer resultat
         if (mig > mod) {
-            spiller.vindKamp();                                            // Opdater rank for din spiller
+            spiller.vindKamp();                                             // Opdater rank for din spiller
         } else {
-            spiller.tabtKamp();                                              // Hvis vores spiller vinder → bliver bedre
+            spiller.tabtKamp();                                            // Hvis vores spiller vinder → bliver bedre
         }
 
         kamp.printKamp();
