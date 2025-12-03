@@ -13,7 +13,7 @@ public class RegistrerKamp {
     private Modstander modstander;
     private int scoreMig;
     private int scoreMod;
-    boolean afsluttet;
+    private boolean afsluttet;
 
     public RegistrerKamp(KonkurrenceSpiller spiller, Modstander modstander) {
         this.spiller = spiller;
@@ -27,8 +27,6 @@ public class RegistrerKamp {
         this.scoreMig = mig;
         this.scoreMod = mod;
         this.afsluttet = true;
-
-
     }
 
     public void printKamp() {
@@ -42,14 +40,13 @@ public class RegistrerKamp {
         }
     }
 
+    // Vi bruger disse get til at lave historik/stats senere
     public int getScoreMig(){
         return scoreMig;
     }
-
     public int getScoreMod(){
         return scoreMod;
     }
-
     public boolean isAfsluttet(){
         return afsluttet;
     }

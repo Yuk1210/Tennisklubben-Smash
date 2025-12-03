@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -9,6 +10,11 @@ public class Main {
         Kasser kasser = new Kasser(); // Kasser-objekt
         Formand formand = new Formand(); // Formand-objekt
         boolean running = true;
+        ArrayList<Medlem> medlemmer = new ArrayList<>();
+
+        Coach coach = new Coach("Coach Carter");
+        List<KonkurrenceSpiller> alleSpillere = new ArrayList<>();
+
 
         while (running) {
 
@@ -92,10 +98,89 @@ public class Main {
                         }
                     }
                 }
+                case 2 -> {
 
-                case 2 -> { // Coach
-                    System.out.println("Salam Coach Carter - Menu (under udvikling)");
-                    // Her kan du senere tilføje ranglister og kampregistrering
+                    System.out.println("");
+                    System.out.println("Hej Coach Carter - Menu");
+                    System.out.println("1. Vis ranglister");
+                    System.out.println("2. Registrer kamp");
+                    System.out.println("3. Tilbage til Smash hovedmenu");
+                    System.out.println("Vælg input: ");
+
+                    int coachValg = input.nextInt();
+                    input.nextLine();
+
+                    if (coachValg == 1) {
+                        System.out.println("\n Hej Coach, Vælg disciplin:");
+                        System.out.println("1. Junior Single");
+                        System.out.println("2. Junior Double");
+                        System.out.println("3. Junior Mixed");
+                        System.out.println("4. Senior Single");
+                        System.out.println("5. Senior Double");
+                        System.out.println("6. Senior Mixed");
+
+                        int disciplinValg = input.nextInt();
+                        input.nextLine();
+
+                        if (disciplinValg == 1) {
+                            coach.printListe(coach.udtagJuniorSingle(alleSpillere));
+                        } else if (disciplinValg == 2) {
+                            coach.printListe(coach.udtagJuniorDouble(alleSpillere));
+                        } else if (disciplinValg == 3) {
+                            coach.printListe(coach.udtagJuniorMixed(alleSpillere));
+                        } else if (disciplinValg == 4) {
+                            coach.printListe(coach.udtagSeniorSingle(alleSpillere));
+                        } else if (disciplinValg == 5) {
+                            coach.printListe(coach.udtagSeniorDouble(alleSpillere));
+                        } else if (disciplinValg == 6) {
+                            coach.printListe(coach.udtagSeniorMixed(alleSpillere));
+                        } else System.out.println("Ugyldigt valg, prøv igen");
+
+
+
+                    } else if (coachValg == 2) {
+                        System.out.println("=== Registrer kamp ===");
+
+                        if (alleSpillere.isEmpty()) {
+                            System.out.println("Ingen konkurrence spillere i systemet");
+                            break;
+                        }
+
+                        System.out.println("Vælg Spiller: ");
+                        for (int i = 0; i < alleSpillere.size(); i++) {
+                            System.out.println((i + 1) + ". " + alleSpillere.get(i).getMedlem().getNavn());
+                        }
+
+                        int spillerValg = input.nextInt() - 1;
+                        input.nextLine();
+
+                        if (spillerValg < 0 || spillerValg >= alleSpillere.size()) {
+                            System.out.println("Ugyldigt valg");
+                            break;
+                        }
+
+                        KonkurrenceSpiller spiller = alleSpillere.get(spillerValg);
+
+                        System.out.println("Indtast modstanders navn: ");
+                        String navn = input.nextLine();
+                        Modstander modstander = new Modstander(navn);
+
+                        System.out.println("Vores spiller score: ");
+                        int mig = input.nextInt();
+
+                        System.out.println("Vores modstander score: ");
+                        int mod = input.nextInt();
+                        input.nextLine();
+
+                        coach.registrerKamp(spiller, modstander, mig, mod);
+
+                        System.out.println("Kamp registreret:");
+
+                    } else if (coachValg == 3) {
+                        System.out.println("Tilbage til Smash hovedmenu. ");
+                    } else {
+                        System.out.println("Ugyldigt valg, prøv igen");
+                    }
                 }
 
                 case 3 -> { // Kasser
