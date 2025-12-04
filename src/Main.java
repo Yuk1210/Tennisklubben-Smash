@@ -9,10 +9,10 @@ public class Main {
         Scanner input = new Scanner(System.in);
         Kasser kasser = new Kasser(); // Kasser-objekt
         Formand formand = new Formand(); // Formand-objekt
-        boolean running = true;
-        ArrayList<Medlem> medlemmer = new ArrayList<>();
-
         Coach coach = new Coach("Coach Carter");
+        boolean running = true;
+        ArrayList<Medlem> medlemmer = Filehandler.hentMedlemmer();
+        formand.medlemsListe = medlemmer;
         List<KonkurrenceSpiller> alleSpillere = new ArrayList<>();
 
 
@@ -22,7 +22,8 @@ public class Main {
             System.out.println("1. Formand");
             System.out.println("2. Coach");
             System.out.println("3. Kasser");
-            System.out.println("4. Afslut");
+            System.out.println("4. Medlem");
+            System.out.println("5. Afslut");
             System.out.print("Vælg: ");
 
             int choice = input.nextInt();
@@ -51,7 +52,8 @@ public class Main {
                                 try {
                                     Medlem nyt = Formand.opretMedlemViaBrugerInput(formand.medlemsListe);
                                     formand.medlemsListe.add(nyt);
-
+                                    Filehandler.gemMedlemmer(formand.medlemsListe);
+                                    
                                     // Automatisk kontingent oprettelse
                                     int juniorPris = 800;
                                     int seniorPris = 1500;
@@ -182,7 +184,6 @@ public class Main {
                         System.out.println("Ugyldigt valg, prøv igen");
                     }
                 }
-
                 case 3 -> { // Kasser
                     boolean kørKasser = true;
 
@@ -191,11 +192,15 @@ public class Main {
                         System.out.println("1. Vis alle kontingenter");
                         System.out.println("2. Registrer betaling");
                         System.out.println("3. Se samlet sum");
-                        System.out.println("4. Tilbage til hovedmenu");
+                        System.out.println("4. Se betalings status");
+                        System.out.println("5. Tilbage til hovedmenu");
                         System.out.print("Vælg: ");
 
                         int kValg = input.nextInt();
                         input.nextLine();
+
+                        ArrayList<Kontigent> konti = kasser.getKontigenter();
+
 
                         switch (kValg) {
 
@@ -217,6 +222,14 @@ public class Main {
                                 System.out.print("Indtast navn på medlem der har betalt: ");
                                 String navn = input.nextLine();
                                 kasser.registrerBetaling(navn);
+
+                                Kontigent k2 = kasser.findKontigent(navn);
+                                if (k2 != null) {
+                                    k2.registrerBetaling();
+                                    Filehandler.gemBetaling(k2);
+                                } else {
+                                    System.out.println("Medlem ikke fundet.");
+                                }
                             }
 
                             case 3 -> { // Se samlet sum
@@ -226,14 +239,22 @@ public class Main {
                                 System.out.println("Samlet ikke betalt: " + sumIkkeBetalt + " kr");
                             }
 
-                            case 4 -> kørKasser = false; // Tilbage til hovedmenu
+                            case 4 -> {
+                                for (Kontigent k : konti) {
+                                    System.out.println(k);
+                                }
+                            }
+
+                            case 5 -> kørKasser = false; // Tilbage til hovedmenu
 
                             default -> System.out.println("Ugyldigt valg!");
                         }
                     }
                 }
-
-                case 4 -> { // Afslut
+                case 4 -> {
+                    Statistik.seStats(medlemmer);
+                }
+                case 5 -> { // Afslut
                     System.out.println("Program afsluttes.");
                     running = false;
                 }
