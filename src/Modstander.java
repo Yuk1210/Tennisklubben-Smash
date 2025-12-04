@@ -1,4 +1,4 @@
-public class Modstander {
+ public class Modstander {
 
     private String navn;
 

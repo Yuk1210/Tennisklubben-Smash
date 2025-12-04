@@ -1,4 +1,4 @@
-public class Medlem extends Person{
+ public class Medlem extends Person{
 
     public enum medlemsType{ AKTIV,PASSIV}
     public enum spillerType{JUNIOR, SENIOR}

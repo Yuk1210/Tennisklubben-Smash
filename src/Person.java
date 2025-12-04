@@ -1,4 +1,4 @@
-public class Person {
+ public class Person {
     protected String navn;
     protected String efternavn;
     protected String adresse;

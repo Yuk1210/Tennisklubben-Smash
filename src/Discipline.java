@@ -1,2 +1,2 @@
-public class Discipline {
+ public class Discipline {
 }
