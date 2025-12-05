@@ -44,7 +44,7 @@ public class KonkurrenceSpiller {
 
     @Override
     public String toString (){
-        return medlem.getNavn() + " Rank: " + rank + discipliner;
+        return medlem.getNavn() + " " + " Rank: " + rank + discipliner;
     }
 }
 

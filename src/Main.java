@@ -53,8 +53,35 @@ public class Main {
                                     Medlem nyt = Formand.opretMedlemViaBrugerInput(formand.medlemsListe);
                                     formand.medlemsListe.add(nyt);
                                     Filehandler.gemMedlemmer(formand.medlemsListe);
-                                    
-                                    // Automatisk kontingent oprettelse
+
+                                    if (nyt.getRolleType() == Medlem.rolleType.KONKURRENCE) {
+                                        System.out.println("Tilføjer konkurrencespiller til coach-liste...");
+
+                                        List<KonkurrenceSpiller.Disciplin> d = new ArrayList<>();
+
+                                        // Lad brugeren vælge SINGLE / DOUBLE / MIXED
+                                        System.out.println("Vælg disciplin for spilleren:");
+                                        System.out.println("1. Single");
+                                        System.out.println("2. Double");
+                                        System.out.println("3. Mixed");
+
+                                        int valg = input.nextInt();
+                                        input.nextLine();
+
+                                        if (valg == 1) d.add(KonkurrenceSpiller.Disciplin.SINGLE);
+                                        if (valg == 2) d.add(KonkurrenceSpiller.Disciplin.DOUBLE);
+                                        if (valg == 3) d.add(KonkurrenceSpiller.Disciplin.MIXED);
+
+                                        alleSpillere.add(new KonkurrenceSpiller(nyt, 100, d));
+
+                                        System.out.println("Konkurrencespiller tilføjet til Coach-listen!");
+                                    }
+
+
+
+
+
+                                        // Automatisk kontingent oprettelse
                                     int juniorPris = 800;
                                     int seniorPris = 1500;
                                     int aeldreRabat = 1125;
