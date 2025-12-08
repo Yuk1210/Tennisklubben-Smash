@@ -56,23 +56,27 @@ public class Kontigent {
     public Status getStatus() { return status; }
 
     private double beregnPris() {
-        if (medlem.getMedlemsType() == Medlem.medlemsType.PASSIV){
+
+        if (medlem.getMedlemsType() == Medlem.medlemsType.PASSIV) {
             return passiv;
         }
+
         int alder = medlem.getAlder();
-        // Juniorpris (Under 18)
-        if (alder < 18) {
-            return juniorPris;
-        }
-        // Seniorpris (18–60)
-        else if (alder <= 18) {
-            return seniorPris;
-        }
+
         // Ældrepris (over 60)
-        else {
+        if (alder >= 60) {
             return aeldreRabat;
         }
+
+        // Senior (18–59)
+        if (alder >= 18) {
+            return seniorPris;
+        }
+
+        // Junior (under 18)
+        return juniorPris;
     }
+
 
     public void registrerBetaling() {
         this.status = Status.BETALT;
@@ -92,14 +96,18 @@ public class Kontigent {
         return sum;
     }
 
-    public int dageTilbage(){
-        if (betalingsDato == null) return 365;
+    public int dageTilbage() {
+
+        if (betalingsDato == null) {
+            return 0;    // betyder: ingen betaling endnu
+        }
 
         int dageGaet = LocalDate.now().getDayOfYear() - betalingsDato.getDayOfYear();
         if (dageGaet < 0) dageGaet += 365;
 
         return Math.max(365 - dageGaet, 0);
     }
+
 
     @Override
     public String toString() {
