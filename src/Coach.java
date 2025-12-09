@@ -1,4 +1,4 @@
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class Coach {
 
 
     public List<KonkurrenceSpiller> udtagSpillere(List<KonkurrenceSpiller> spillere,
-        Medlem.spillerType alder, KonkurrenceSpiller.Disciplin disciplin) {
+                                                  Medlem.spillerType alder, KonkurrenceSpiller.Disciplin disciplin) {
 
         List<KonkurrenceSpiller> filtrer = new ArrayList<>();
 

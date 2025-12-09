@@ -13,7 +13,8 @@ public class Main {
         boolean running = true;
         ArrayList<Medlem> medlemmer = Filehandler.hentMedlemmer();
         formand.medlemsListe = medlemmer;
-        List<KonkurrenceSpiller> alleSpillere = new ArrayList<>();
+        ArrayList<KonkurrenceSpiller> alleSpillere = FilehandlerKS.hentKonkurrenceSpillere();
+
 
 
         while (running) {
@@ -129,18 +130,18 @@ public class Main {
                 }
                 case 2 -> {
 
-                    System.out.println("");
+                    alleSpillere = FilehandlerKS.hentKonkurrenceSpillere();
+
                     System.out.println("Hej Coach Carter - Menu");
                     System.out.println("1. Vis ranglister");
                     System.out.println("2. Registrer kamp");
-                    System.out.println("3. Tilbage til Smash hovedmenu");
-                    System.out.println("Vælg input: ");
+                    System.out.println("3. Tilbage til hovedmenu");
 
-                    int coachValg = input.nextInt();
-                    input.nextLine();
+                    int coachValg = input.nextInt(); input.nextLine();
 
                     if (coachValg == 1) {
-                        System.out.println("\n Hej Coach, Vælg disciplin:");
+
+                        System.out.println("Vælg disciplin:");
                         System.out.println("1. Junior Single");
                         System.out.println("2. Junior Double");
                         System.out.println("3. Junior Mixed");
@@ -148,36 +149,29 @@ public class Main {
                         System.out.println("5. Senior Double");
                         System.out.println("6. Senior Mixed");
 
-                        int disciplinValg = input.nextInt();
-                        input.nextLine();
+                        int valg = input.nextInt(); input.nextLine();
 
-                        if (disciplinValg == 1) {
-                            coach.printListe(coach.udtagJuniorSingle(alleSpillere));
-                        } else if (disciplinValg == 2) {
-                            coach.printListe(coach.udtagJuniorDouble(alleSpillere));
-                        } else if (disciplinValg == 3) {
-                            coach.printListe(coach.udtagJuniorMixed(alleSpillere));
-                        } else if (disciplinValg == 4) {
-                            coach.printListe(coach.udtagSeniorSingle(alleSpillere));
-                        } else if (disciplinValg == 5) {
-                            coach.printListe(coach.udtagSeniorDouble(alleSpillere));
-                        } else if (disciplinValg == 6) {
-                            coach.printListe(coach.udtagSeniorMixed(alleSpillere));
-                        } else System.out.println("Ugyldigt valg, prøv igen");
+                        switch (valg) {
+                            case 1 -> coach.printListe(coach.udtagJuniorSingle(alleSpillere));
+                            case 2 -> coach.printListe(coach.udtagJuniorDouble(alleSpillere));
+                            case 3 -> coach.printListe(coach.udtagJuniorMixed(alleSpillere));
+                            case 4 -> coach.printListe(coach.udtagSeniorSingle(alleSpillere));
+                            case 5 -> coach.printListe(coach.udtagSeniorDouble(alleSpillere));
+                            case 6 -> coach.printListe(coach.udtagSeniorMixed(alleSpillere));
+                            default -> System.out.println("Ugyldigt valg");
+                        }
+                    }
 
-
-
-                    } else if (coachValg == 2) {
-                        System.out.println("=== Registrer kamp ===");
+                    else if (coachValg == 2) {
 
                         if (alleSpillere.isEmpty()) {
-                            System.out.println("Ingen konkurrence spillere i systemet");
+                            System.out.println("Ingen konkurrencespillere i systemet");
                             break;
                         }
 
-                        System.out.println("Vælg Spiller: ");
+                        System.out.println("Vælg spiller:");
                         for (int i = 0; i < alleSpillere.size(); i++) {
-                            System.out.println((i + 1) + ". " + alleSpillere.get(i).getMedlem().getNavn());
+                            System.out.println((i+1) + ". " + alleSpillere.get(i).getMedlem().getNavn());
                         }
 
                         int spillerValg = input.nextInt() - 1;
@@ -190,27 +184,27 @@ public class Main {
 
                         KonkurrenceSpiller spiller = alleSpillere.get(spillerValg);
 
-                        System.out.println("Indtast modstanders navn: ");
-                        String navn = input.nextLine();
-                        Modstander modstander = new Modstander(navn);
+                        System.out.print("Modstanders navn: ");
+                        String modNavn = input.nextLine();
 
-                        System.out.println("Vores spiller score: ");
+                        Modstander modstander = new Modstander(modNavn);
+
+                        System.out.print("Vores spiller score: ");
                         int mig = input.nextInt();
 
-                        System.out.println("Vores modstander score: ");
+                        System.out.print("Modstander score: ");
                         int mod = input.nextInt();
                         input.nextLine();
 
                         coach.registrerKamp(spiller, modstander, mig, mod);
 
-                        System.out.println("Kamp registreret:");
+                        FilehandlerKS.gemKonkurrenceSpillere(alleSpillere);
 
-                    } else if (coachValg == 3) {
-                        System.out.println("Tilbage til Smash hovedmenu. ");
-                    } else {
-                        System.out.println("Ugyldigt valg, prøv igen");
+                        System.out.println("Kamp registreret!");
                     }
                 }
+
+
                 case 3 -> { // Kasser
                     boolean kørKasser = true;
 
