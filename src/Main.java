@@ -13,7 +13,7 @@ public class Main {
         boolean running = true;
         ArrayList<Medlem> medlemmer = Filehandler.hentMedlemmer();
         formand.medlemsListe = medlemmer;
-        ArrayList<KonkurrenceSpiller> alleSpillere = FilehandlerKS.hentKonkurrenceSpillere();
+        ArrayList<KonkurrenceSpiller> alleSpillere = Filehandler.hentKonkurrenceSpillere();
 
 
 
@@ -130,7 +130,7 @@ public class Main {
                 }
                 case 2 -> {
 
-                    alleSpillere = FilehandlerKS.hentKonkurrenceSpillere();
+                    alleSpillere = Filehandler.hentKonkurrenceSpillere();
 
                     System.out.println("Hej Coach Carter - Menu");
                     System.out.println("1. Vis ranglister");
@@ -198,7 +198,7 @@ public class Main {
 
                         coach.registrerKamp(spiller, modstander, mig, mod);
 
-                        FilehandlerKS.gemKonkurrenceSpillere(alleSpillere);
+                        Filehandler.gemKonkurrenceSpillere(alleSpillere);
 
                         System.out.println("Kamp registreret!");
                     }
