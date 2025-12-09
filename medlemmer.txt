@@ -1,0 +1,26 @@
+-------------------
+ID: 1234
+Navn: Asser Ali
+Adresse: zouasd
+Alder: 15
+Email: zou@gmail.com
+Telefon: 12345678
+Beskaeftigelse: Medlem
+Medlemstype: AKTIV
+Spillertype: JUNIOR
+Rolletype: KONKURRENCE
+-------------------
+
+-------------------
+ID: 9980
+Navn: Imrane aaa
+Adresse: aasdafg
+Alder: 14
+Email: opp@gmail.com
+Telefon: 12345567
+Beskaeftigelse: Medlem
+Medlemstype: AKTIV
+Spillertype: JUNIOR
+Rolletype: KONKURRENCE
+-------------------
+
