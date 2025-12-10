@@ -74,6 +74,7 @@ public class Main {
                                         if (valg == 3) d.add(KonkurrenceSpiller.Disciplin.MIXED);
 
                                         alleSpillere.add(new KonkurrenceSpiller(nyt, 100, d));
+                                        Filehandler.gemKonkurrenceSpillere(alleSpillere);
 
                                         System.out.println("Konkurrencespiller tilføjet til Coach-listen!");
                                     }
