@@ -16,7 +16,6 @@ public class Filehandler {
         try (PrintWriter pw = new PrintWriter(new FileWriter(MEDLEMSFIL))) {
 
             for (Medlem m : medlemmer) {
-                pw.println("-------------------");
                 pw.println("ID: " + m.getId());
                 pw.println("Navn: " + m.getNavn() + " " + m.getEfternavn());
                 pw.println("Adresse: " + m.getAdresse());
@@ -28,7 +27,6 @@ public class Filehandler {
                 pw.println("Spillertype: " + m.getSpillerType());
                 pw.println("Rolletype: " + m.getRolleType());
                 pw.println("-------------------");
-                pw.println();
             }
 
         } catch (IOException e) {
@@ -63,19 +61,30 @@ public class Filehandler {
                 else if (linje.startsWith("Adresse:")) adresse = linje.substring(9).trim();
                 else if (linje.startsWith("Alder:")) alder = Integer.parseInt(linje.substring(7).trim());
                 else if (linje.startsWith("Email:")) email = linje.substring(7).trim();
-                else if (linje.startsWith("Tlf:")) tlf = linje.substring(9).trim();
+                else if (linje.startsWith("Telefon:")) {    tlf = linje.length() > 8 ? linje.substring(8).trim() : "";}
                 else if (linje.startsWith("Beskaeftigelse:")) besk = linje.substring(15).trim();
                 else if (linje.startsWith("Medlemstype:")) mType = Medlem.medlemsType.valueOf(linje.substring(13).trim());
                 else if (linje.startsWith("Spillertype:")) sType = Medlem.spillerType.valueOf(linje.substring(13).trim());
                 else if (linje.startsWith("Rolletype:")) rType = Medlem.rolleType.valueOf(linje.substring(11).trim());
 
-                else if (linje.isBlank()) {
+                else if (linje.startsWith("-------------------")) {
                     if (id != 0) {
                         liste.add(new Medlem(
                                 navn, efternavn, adresse, alder, email, tlf, id,
                                 besk, mType, sType, rType
                         ));
-                        id = 0; // Nulstil så du ikke tilføjer igen
+                        // Nulstil alle værdier
+                        id = 0;
+                        navn = "";
+                        efternavn = "";
+                        adresse = "";
+                        alder = 0;
+                        email = "";
+                        tlf = "";
+                        besk = "";
+                        mType = null;
+                        sType = null;
+                        rType = null;
                     }
                 }
             }
