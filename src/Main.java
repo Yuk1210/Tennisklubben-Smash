@@ -78,10 +78,6 @@ public class Main {
                                         System.out.println("Konkurrencespiller tilføjet til Coach-listen!");
                                     }
 
-
-
-
-
                                         // Automatisk kontingent oprettelse
                                     int juniorPris = 800;
                                     int seniorPris = 1500;

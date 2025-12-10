@@ -134,7 +134,6 @@ public class Formand {
         return false;
     }
 
-
     public static Medlem opretMedlemViaBrugerInput(ArrayList<Medlem> eksisterendeListe) {
         Scanner sc = new Scanner(System.in);
 
@@ -255,8 +254,5 @@ public class Formand {
             rType = rInput.equalsIgnoreCase("MOTIONIST") ? Medlem.rolleType.MOTIONIST : Medlem.rolleType.KONKURRENCE;
         }
         return new Medlem(navn, efternavn, adresse, alder, email, tlf, id, "Medlem", mType, sType, rType);
-
-
     }
 }
-

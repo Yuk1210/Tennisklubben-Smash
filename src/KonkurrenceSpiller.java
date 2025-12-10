@@ -11,7 +11,6 @@ public class KonkurrenceSpiller {
 
     private List<Disciplin> discipliner;
 
-
     public KonkurrenceSpiller(Medlem medlem, int rank, List<Disciplin> discipliner) {
         this.medlem = medlem;
         this.rank = rank;
@@ -47,6 +46,3 @@ public class KonkurrenceSpiller {
         return medlem.getNavn() + " " + " Rank: " + rank + discipliner;
     }
 }
-
-
-

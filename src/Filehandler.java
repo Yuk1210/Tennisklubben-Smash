@@ -5,7 +5,6 @@ import java.util.ArrayList;
 //Betaling Linje 88-108
 //Konkurrencespillere Linje 111-187
 
-
 public class Filehandler {
 
     private static final String MEDLEMSFIL = "medlemmer.txt";
@@ -70,11 +69,13 @@ public class Filehandler {
                 else if (linje.startsWith("Spillertype:")) sType = Medlem.spillerType.valueOf(linje.substring(13).trim());
                 else if (linje.startsWith("Rolletype:")) rType = Medlem.rolleType.valueOf(linje.substring(11).trim());
 
-                else if (linje.startsWith("---------------")) {
+                else if (linje.isBlank()) {
                     if (id != 0) {
                         liste.add(new Medlem(
-                                navn, efternavn, adresse, alder, email, tlf, id, besk, mType, sType, rType
+                                navn, efternavn, adresse, alder, email, tlf, id,
+                                besk, mType, sType, rType
                         ));
+                        id = 0; // Nulstil så du ikke tilføjer igen
                     }
                 }
             }

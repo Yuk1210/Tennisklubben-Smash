@@ -13,7 +13,6 @@
         this.medlemsType = medlemsType;
         this.spillerType = spillerType;
         this.rolleType = rolleType;
-
     }
 
     public medlemsType getMedlemsType() {
@@ -48,6 +47,3 @@
                 ", rolleType = " + rolleType;
     }
 }
-
-
-

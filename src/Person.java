@@ -48,15 +48,3 @@
                 ", beskaeftigelse = " + beskaeftigelse;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

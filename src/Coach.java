@@ -18,8 +18,6 @@ public class Coach {
      Begræns til top 5
      */
 
-
-
     public List<KonkurrenceSpiller> udtagSpillere(List<KonkurrenceSpiller> spillere,
                                                   Medlem.spillerType alder, KonkurrenceSpiller.Disciplin disciplin) {
 

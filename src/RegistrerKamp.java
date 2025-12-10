@@ -7,7 +7,6 @@ Efter gemme resultat
 Kunne printe kampen
 */
 
-
 public class RegistrerKamp {
     private KonkurrenceSpiller spiller;
     private Modstander modstander;
@@ -51,4 +50,3 @@ public class RegistrerKamp {
         return afsluttet;
     }
 }
-
