@@ -77,7 +77,6 @@ public class Kontigent {
         return juniorPris;
     }
 
-
     public void registrerBetaling() {
         this.status = Status.BETALT;
         this.betalingsDato = LocalDate.now();
@@ -107,7 +106,6 @@ public class Kontigent {
 
         return Math.max(365 - dageGaet, 0);
     }
-
 
     @Override
     public String toString() {
